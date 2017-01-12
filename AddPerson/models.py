@@ -8,9 +8,9 @@ Contains no information about relationship with clients or packages
 '''
 class Consultant(models.Model):
     SPECIALTIES = (
-        "specialty1",
-        "specialty2",
-        "specialty3"
+        ('1', "specialty1"),
+        ('2',"specialty2"),
+        ('3',"specialty3")
     )
     consultant_first_name = models.CharField(max_length = 100)
     consultant_last_name = models.CharField(max_length = 100)
@@ -23,9 +23,9 @@ Contains no information about which clients have this package
 '''
 class Package(models.Model):
     POSSIBLE_PACKAGES = (
-        "package1",
-        "package2",
-        "package3"
+        ('1',"package1"),
+        ('2',"package2"),
+        ('3',"package3")
     )
     package_name = models.CharField(max_length = 20, choices=POSSIBLE_PACKAGES)
     package_start_date = models.DateField()
