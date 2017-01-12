@@ -46,7 +46,7 @@ class Client(models.Model):
     client_first_name = models.CharField(max_length = 100)
     client_last_name = models.CharField(max_length = 100)
     client_packages = models.ManyToManyField(Package)
-    client_consultant = models.ForeignKey(Consultant, on_delete = CASCADE)
+    client_consultant = models.ForeignKey(Consultant, on_delete = models.CASCADE)
     #other info
 
     #params: new_package to add to the client
