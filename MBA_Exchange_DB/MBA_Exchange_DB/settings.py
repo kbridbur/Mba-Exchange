@@ -1,5 +1,5 @@
 """
-Django settings for mbaexchange project.
+Django settings for MBA_Exchange_DB project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6fx_cb%5zuyyu0f+qm6bx$gwn7ee00y5^zfz#e(moo89*x(#w%'
+SECRET_KEY = '+)-zj8&g$jnjcs(qjx(^brn5n+(!@1^$_250k!2)pyr9z&s$y#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,9 +47,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'mbaexchange.urls'
+ROOT_URLCONF = 'MBA_Exchange_DB.urls'
 
-WSGI_APPLICATION = 'mbaexchange.wsgi.application'
+WSGI_APPLICATION = 'MBA_Exchange_DB.wsgi.application'
 
 
 # Database
