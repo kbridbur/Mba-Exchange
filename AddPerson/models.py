@@ -1,5 +1,5 @@
 from django.db import models
-
+import AddPerson.enumerations as enums
 # Create your models here.
 
 '''
@@ -7,14 +7,9 @@ Represents a consultant as an object containing all of their personal informatio
 Contains no information about relationship with clients or packages
 '''
 class Consultant(models.Model):
-    SPECIALTIES = (
-        ('1', "specialty1"),
-        ('2',"specialty2"),
-        ('3',"specialty3")
-    )
     consultant_first_name = models.CharField(max_length = 100)
     consultant_last_name = models.CharField(max_length = 100)
-    consultant_specialty = models.CharField(max_length = 50, choices = SPECIALTIES)
+    consultant_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES)
     consultant_address = models.CharField(max_length = 200)
 
 '''
@@ -22,23 +17,18 @@ Represents a package as a package name and dates during which package is active/
 Contains no information about which clients have this package
 '''
 class Package(models.Model):
-    POSSIBLE_PACKAGES = (
-        ('1',"package1"),
-        ('2',"package2"),
-        ('3',"package3")
-    )
-    package_name = models.CharField(max_length = 20, choices=POSSIBLE_PACKAGES)
+    package_name = models.CharField(max_length = 1, choices=enums.POSSIBLE_PACKAGES)
     package_start_date = models.DateField()
     package_end_date = models.DateField()
 
     #params: new_end_date, a datetime object representing the new end date of the package
     def ChangeEndDate(self, new_end_date):
         package_end_date = new_end_date
-
+'''
     #returns package name as a string
     def __str__(self):
         return package_name
-
+'''
 '''
 Represents a client who may have a consultant and one or more packages
 '''
@@ -52,7 +42,8 @@ class Client(models.Model):
     #params: new_package to add to the client
     def AddPackage(self, new_package):
         client_packages.add(new_package)
-
+'''
     #returns client name as a string
     def __str__(self):
         return client_first_name + " " + client_last_name
+'''
