@@ -9,3 +9,8 @@ SPECIALTIES = (
     ('2',"specialty2"),
     ('3',"specialty3")
 )
+
+SCHOOLS = (
+    ('HBS', 'Harvard Business School'),
+    ('MIT', 'Massachusetts Institute of Techonology')
+)
