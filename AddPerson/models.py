@@ -7,10 +7,10 @@ Represents a consultant as an object containing all of their personal informatio
 Contains no information about relationship with clients or packages
 '''
 class Consultant(models.Model):
-    consultant_first_name = models.CharField(max_length = 100, blank = True)
-    consultant_last_name = models.CharField(max_length = 100, blank = True)
-    consultant_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES)
-    consultant_address = models.CharField(max_length = 200, blank = True)
+    consultant_first_name = models.CharField(max_length = 100, blank = True, null = True)
+    consultant_last_name = models.CharField(max_length = 100, blank = True, null = True)
+    consultant_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES, default = enums.SPECIALTIES[0][0], blank = True, null = True)
+    consultant_address = models.CharField(max_length = 200, blank = True, null = True)
 
     def __str__(self):
         return self.consultant_first_name + " " + self.consultant_last_name
@@ -19,8 +19,8 @@ class Consultant(models.Model):
 Represents a client who may have a consultant and one or more packages
 '''
 class Client(models.Model):
-    client_first_name = models.CharField(max_length = 100)
-    client_last_name = models.CharField(max_length = 100)
+    client_first_name = models.CharField(max_length = 100, blank = True, null = True)
+    client_last_name = models.CharField(max_length = 100, blank = True, null = True)
     client_consultant = models.ForeignKey(Consultant, on_delete = models.PROTECT)
     #other info
 
@@ -37,10 +37,10 @@ Represents a package as a package name and dates during which package is active/
 Contains no information about which clients have this package
 '''
 class Package(models.Model):
-    client = models.ForeignKey(Client, null = True, blank = True)
-    package_name = models.CharField(max_length = 1, choices=enums.POSSIBLE_PACKAGES)
-    package_start_date = models.DateField(default = datetime.now, blank = True)
-    package_end_date = models.DateField(default = datetime.now, blank = True)
+    client = models.ForeignKey(Client, blank = True, null = True)
+    package_name = models.CharField(max_length = 1, choices=enums.POSSIBLE_PACKAGES, default = enums.POSSIBLE_PACKAGES[0][0], blank = True, null = True)
+    package_start_date = models.DateField(default = datetime.now, blank = True, null = True)
+    package_end_date = models.DateField(default = datetime.now, blank = True, null = True)
 
     #params: new_end_date, a datetime object representing the new end date of the package
     def ChangeEndDate(self, new_end_date):
@@ -54,9 +54,9 @@ class Package(models.Model):
 Represents an application.
 '''
 class Application(models.Model):
-    client = models.ForeignKey(Client, null = True, blank = True)
-    application_round = models.IntegerField(default = 1, blank = True)
-    application_school = models.CharField(max_length = 10, choices = enums.SCHOOLS)
+    client = models.ForeignKey(Client, blank = True, null = True)
+    application_round = models.IntegerField(default = 1, blank = True, null = True)
+    application_school = models.CharField(max_length = 10, choices = enums.SCHOOLS, default = enums.SCHOOLS[0][0], blank = True, null = True)
     application_success = models.BooleanField(default=False, blank = True)
 
     def __str__(self):
