@@ -1,4 +1,11 @@
-POSSIBLE_PACKAGES = (
+POSSIBLE_SERVICES = (
+    ('N', "None"),
+    ('1',"package1"),
+    ('2',"package2"),
+    ('3',"package3")
+)
+
+POSSIBLE_ADMISSIONS_SERVICES = (
     ('N', "None"),
     ('1',"package1"),
     ('2',"package2"),

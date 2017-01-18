@@ -1,19 +1,53 @@
 from django.db import models
 from datetime import datetime
 import AddPerson.enumerations as enums
-# Create your models here.
+
+
 '''
 Represents a consultant as an object containing all of their personal information.
 Contains no information about relationship with clients or packages
 '''
 class Consultant(models.Model):
+    payment = models.IntegerField(default = 0, blank = True, null = True)
     consultant_first_name = models.CharField(max_length = 100, blank = True, null = True)
     consultant_last_name = models.CharField(max_length = 100, blank = True, null = True)
     consultant_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES, default = enums.SPECIALTIES[0][0], blank = True, null = True)
     consultant_address = models.CharField(max_length = 200, blank = True, null = True)
 
+    def CreateConsultant(cls, payment, first_name, last_name, specialty, address):
+        consultant = cls(payment = payment,
+                    consultant_first_name = first_name,
+                    consultant_last_name = last_name,
+                    consultant_specialty = specialty,
+                    consultant_address = address)
+        consultant.save()
+        return consultant
+
     def __str__(self):
         return self.consultant_first_name + " " + self.consultant_last_name
+
+'''
+Represents a provider as an object containing all of their personal information.
+Contains no information about relationship with clients or packages
+'''
+class Provider(models.Model):
+    payment = models.IntegerField(default = 0, blank = True, null = True)
+    provider_first_name = models.CharField(max_length = 100, blank = True, null = True)
+    provider_last_name = models.CharField(max_length = 100, blank = True, null = True)
+    provider_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES, default = enums.SPECIALTIES[0][0], blank = True, null = True)
+    provider_address = models.CharField(max_length = 200, blank = True, null = True)
+
+    def CreateProvider(cls, payment, first_name, last_name, specialty, address):
+        provider = cls(payment = payment,
+                    provider_first_name = first_name,
+                    provider_last_name = last_name,
+                    provider_specialty = specialty,
+                    provider_address = address)
+        provider.save()
+        return provider
+
+    def __str__(self):
+        return self.provider_first_name + " " + self.provider_last_name
 
 '''
 Represents a client who may have a consultant and one or more packages
@@ -21,43 +55,92 @@ Represents a client who may have a consultant and one or more packages
 class Client(models.Model):
     client_first_name = models.CharField(max_length = 100, blank = True, null = True)
     client_last_name = models.CharField(max_length = 100, blank = True, null = True)
-    client_consultant = models.ForeignKey(Consultant, on_delete = models.PROTECT)
-    #other info
 
-    #params: new_package to add to the client
-    def AddPackage(self, new_package):
-        self.client_packages.add(new_package)
-
+    def CreateClient(cls, first_name, last_name):
+        client = cls(client_first_name = first_name,
+                    client_last_name = last_name)
+        client.save()
+        return client
     #returns client name as a string
     def __str__(self):
         return self.client_first_name + " " + self.client_last_name
 
-'''
-Represents a package as a package name and dates during which package is active/paid for
-Contains no information about which clients have this package
-'''
-class Package(models.Model):
-    client = models.ForeignKey(Client, blank = True, null = True)
-    package_name = models.CharField(max_length = 1, choices=enums.POSSIBLE_PACKAGES, default = enums.POSSIBLE_PACKAGES[0][0], blank = True, null = True)
-    package_start_date = models.DateField(default = datetime.now, blank = True, null = True)
-    package_end_date = models.DateField(default = datetime.now, blank = True, null = True)
-
-    #params: new_end_date, a datetime object representing the new end date of the package
-    def ChangeEndDate(self, new_end_date):
-        self.package_end_date = new_end_date
-
-    #returns package name as a string
-    def __str__(self):
-        return self.package_name
 
 '''
-Represents an application.
+Representation of a list of services as a container for entries of that type
 '''
-class Application(models.Model):
-    client = models.ForeignKey(Client, blank = True, null = True)
-    application_round = models.IntegerField(default = 1, blank = True, null = True)
-    application_school = models.CharField(max_length = 10, choices = enums.SCHOOLS, default = enums.SCHOOLS[0][0], blank = True, null = True)
-    application_success = models.BooleanField(default=False, blank = True)
+class ServiceList(models.Model):
+    client = models.ForeignKey(Client)
+
+    @staticmethod
+    def GetList(client):
+        adlist = AddmissionsList.objects.select_related().get(client=client)
+        return adlist
+
+    def GetServices(self):
+        return [entry.service for entry in self.addmissionsentry_set.all()]
+
+    def GetProviders(self):
+        return [entry.provider for entry in self.addmissionsentry_set.all()]
 
     def __str__(self):
-        return self.application_school
+        return self.GetServices()
+
+'''
+Entry of a non admissions related service
+'''
+class ServiceEntry(models.Model):
+    container = models.ForeignKey(ServiceList, db_index = True)
+    service = models.CharField(max_length = 20, choices = enums.POSSIBLE_SERVICES, default = enums.POSSIBLE_SERVICES[0][0], blank = True, null = True, db_index = True)
+    start_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
+    end_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
+    provider = models.ForeignKey(Provider, db_index = True)
+
+'''
+Representation of a list of addmissions as a container for entries of that type
+'''
+class AddmissionsList(models.Model):
+    client = models.ForeignKey(Client)
+
+    @staticmethod
+    def GetList(client):
+        adlist = AddmissionsList.objects.select_related().get(client=client)
+        return adlist
+
+    def GetAddmissionsServices(self):
+        return [entry.service for entry in self.addmissionsentry_set.all()]
+
+    def GetAddmissionsConsultants(self):
+        return [entry.consultant for entry in self.addmissionsentry_set.all()]
+
+    def __str__(self):
+        return self.GetAddmissionsServices()
+
+'''
+Entry of an admissions related service
+'''
+class AddmissionsEntry(models.Model):
+    container = models.ForeignKey(AddmissionsList, db_index = True)
+    service = models.CharField(max_length = 20, choices = enums.POSSIBLE_ADMISSIONS_SERVICES, default = enums.POSSIBLE_ADMISSIONS_SERVICES[0][0], blank = True, null = True, db_index = True)
+    start_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
+    end_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
+    consultant = models.ForeignKey(Consultant, db_index = True)
+
+'''
+Representation of a list of schools as a container which can hold school enums
+'''
+class SchoolList(models.Model):
+    entry = models.ForeignKey(AddmissionsEntry, db_index = True)
+
+    def GetSchools(self):
+        return [entry.school for entry in self.schoolentry_set.all()]
+
+    def __str__(self):
+        return self.GetSchools()
+
+'''
+Entry in a list
+'''
+class SchoolEntry(models.Model):
+    owning_list = models.ForeignKey(SchoolList, db_index = True)
+    school = models.CharField(max_length = 100, choices = enums.SCHOOLS, default = enums.SCHOOLS[0][0], blank = True, null = True, db_index = True)
