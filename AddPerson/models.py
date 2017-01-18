@@ -2,6 +2,17 @@ from django.db import models
 from datetime import datetime
 import AddPerson.enumerations as enums
 
+'''
+Represents a consultants editor. conusltants may be their own editors in which case both objects will exist with the same name
+Contains no information about who they edit
+'''
+class Editor(models.Model):
+    payment = models.IntegerField(default = 0, blank = True, null = True)
+    editor_first_name = models.CharField(max_length = 100, blank = True, null = True)
+    editor_first_name = models.CharField(max_length = 100, blank = True, null = True)
+
+    def __str__(self):
+        return self.editor_first_name + " " + self.editor_last_name
 
 '''
 Represents a consultant as an object containing all of their personal information.
@@ -13,6 +24,7 @@ class Consultant(models.Model):
     consultant_last_name = models.CharField(max_length = 100, blank = True, null = True)
     consultant_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES, default = enums.SPECIALTIES[0][0], blank = True, null = True)
     consultant_address = models.CharField(max_length = 200, blank = True, null = True)
+    editor = models.ForeignKey(Editor)
 
     def CreateConsultant(cls, payment, first_name, last_name, specialty, address):
         consultant = cls(payment = payment,
@@ -20,7 +32,6 @@ class Consultant(models.Model):
                     consultant_last_name = last_name,
                     consultant_specialty = specialty,
                     consultant_address = address)
-        consultant.save()
         return consultant
 
     def __str__(self):
@@ -43,7 +54,6 @@ class Provider(models.Model):
                     provider_last_name = last_name,
                     provider_specialty = specialty,
                     provider_address = address)
-        provider.save()
         return provider
 
     def __str__(self):
@@ -59,7 +69,6 @@ class Client(models.Model):
     def CreateClient(cls, first_name, last_name):
         client = cls(client_first_name = first_name,
                     client_last_name = last_name)
-        client.save()
         return client
     #returns client name as a string
     def __str__(self):
@@ -78,13 +87,16 @@ class ServiceList(models.Model):
         return adlist
 
     def GetServices(self):
-        return [entry.service for entry in self.addmissionsentry_set.all()]
+        return [entry.service for entry in self.serviceentry_set.all()]
 
     def GetProviders(self):
-        return [entry.provider for entry in self.addmissionsentry_set.all()]
+        return [entry.provider for entry in self.serviceentry_set.all()]
 
     def __str__(self):
-        return self.GetServices()
+        base_str = str(self.client) + " with services: "
+        for service in self.GetServices():
+            base_str += str(service) + ", "
+        return base_str
 
 '''
 Entry of a non admissions related service
@@ -95,6 +107,9 @@ class ServiceEntry(models.Model):
     start_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
     end_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
     provider = models.ForeignKey(Provider, db_index = True)
+
+    def __str__(self):
+        return str(self.service) + " by " + str(self.provider) + " for " + str(self.container.client)
 
 '''
 Representation of a list of addmissions as a container for entries of that type
