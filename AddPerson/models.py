@@ -26,12 +26,13 @@ class Consultant(models.Model):
     consultant_address = models.CharField(max_length = 200, blank = True, null = True)
     editor = models.ForeignKey(Editor)
 
-    def CreateConsultant(cls, payment, first_name, last_name, specialty, address):
+    def CreateConsultant(cls, payment, first_name, last_name, specialty, address, editor):
         consultant = cls(payment = payment,
                     consultant_first_name = first_name,
                     consultant_last_name = last_name,
                     consultant_specialty = specialty,
-                    consultant_address = address)
+                    consultant_address = address,
+                    editor = editor)
         return consultant
 
     def __str__(self):
