@@ -9,7 +9,7 @@ Contains no information about who they edit
 class Editor(models.Model):
     payment = models.IntegerField(default = 0, blank = True, null = True)
     editor_first_name = models.CharField(max_length = 100, blank = True, null = True)
-    editor_first_name = models.CharField(max_length = 100, blank = True, null = True)
+    editor_last_name = models.CharField(max_length = 100, blank = True, null = True)
 
     def __str__(self):
         return self.editor_first_name + " " + self.editor_last_name
