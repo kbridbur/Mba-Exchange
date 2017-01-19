@@ -24,7 +24,17 @@ class Consultant(models.Model):
     consultant_last_name = models.CharField(max_length = 100, blank = True, null = True)
     consultant_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES, default = enums.SPECIALTIES[0][0], blank = True, null = True)
     consultant_address = models.CharField(max_length = 200, blank = True, null = True)
-    editor = models.ForeignKey(Editor)
+    editor = models.ForeignKey(Editor, blank = True, null = True)
+
+    @staticmethod
+    def FindConsultantsByName(name):
+        name_arr = name.split(" ")
+        if len(name_arr) == 0:
+            return Consultant.objects.order_by('consultant_first_name', 'consultant_last_name').all()
+        elif len(name_arr) == 1:
+            return Consultant.objects.values(consultant_first_name=name_arr[0]).all()
+        else:
+            return Consultant.objects.values(consultant_first_name=name_arr[0], consultant_last_name=name_arr[1]).all()
 
     def CreateConsultant(cls, payment, first_name, last_name, specialty, address, editor):
         consultant = cls(payment = payment,
@@ -66,6 +76,19 @@ Represents a client who may have a consultant and one or more packages
 class Client(models.Model):
     client_first_name = models.CharField(max_length = 100, blank = True, null = True)
     client_last_name = models.CharField(max_length = 100, blank = True, null = True)
+    @staticmethod
+    def FindClientsByName(name):
+        if name == None:
+            return Client.objects.order_by('client_first_name', 'client_last_name').all()
+        name_arr = name.split(" ") #split potential first and last name
+        name_arr = [item for item in name_arr if item != ""] #remove empty strings
+        print(name_arr)
+        if len(name_arr) == 0: #no name given, display everything
+            return Client.objects.order_by('client_first_name', 'client_last_name').all()
+        elif len(name_arr) == 1: #just first names
+            return Client.objects.values(client_first_name=name_arr[0]).all()
+        else: #first and last name
+            return Client.objects.values(client_first_name=name_arr[0], client_last_name=name_arr[1]).all()
 
     def CreateClient(cls, first_name, last_name):
         client = cls(client_first_name = first_name,
