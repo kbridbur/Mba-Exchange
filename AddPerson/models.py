@@ -78,8 +78,6 @@ class Client(models.Model):
     client_last_name = models.CharField(max_length = 100, blank = True, null = True)
     @staticmethod
     def FindClientsByName(name):
-        if name == None:
-            return Client.objects.order_by('client_first_name', 'client_last_name').all()
         name_arr = name.split(" ") #split potential first and last name
         name_arr = [item for item in name_arr if item != ""] #remove empty strings
         print(name_arr)
