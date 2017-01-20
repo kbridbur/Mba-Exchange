@@ -1,13 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from AddPerson.models import Client
+from AddPerson.models import Client, Consultant, Provider, Editor
 
 def index(request):
     return HttpResponse("Search the database here!")
 # Create your views here.
 def client_search(request):
-    ''' This could be your actual view or a new one '''
-    # Your code
     if request.method == 'GET': # If the form is submitted
 
         search_query = request.GET.get('search_box', None)
@@ -16,6 +14,45 @@ def client_search(request):
             if search_query == "":
                 query = "All Clients"
             else:
-                query = search_query
-            return render(request, 'client_search_result.html', {'client_set':client_set, 'query': query})
+                query = "clients by name of " + search_query
+            return render(request, 'search_result.html', {'person_set':client_set, 'query': query})
+    return render(request, 'search.html')
+
+def consultant_search(request):
+    if request.method == 'GET': # If the form is submitted
+
+        search_query = request.GET.get('search_box', None)
+        if (search_query != None):
+            consultant_set = Consultant.FindConsultantsByName(search_query)
+            if search_query == "":
+                query = "All Consultants"
+            else:
+                query = "consultants by name of " + search_query
+            return render(request, 'search_result.html', {'person_set':consultant_set, 'query': query})
+    return render(request, 'search.html')
+
+def provider_search(request):
+    if request.method == 'GET': # If the form is submitted
+
+        search_query = request.GET.get('search_box', None)
+        if (search_query != None):
+            provider_set = Provider.FindProvidersByName(search_query)
+            if search_query == "":
+                query = "All Providers"
+            else:
+                query = "providers by name of " + search_query
+            return render(request, 'search_result.html', {'person_set':provider_set, 'query': query})
+    return render(request, 'search.html')
+
+def editor_search(request):
+    if request.method == 'GET': # If the form is submitted
+
+        search_query = request.GET.get('search_box', None)
+        if (search_query != None):
+            editor_set = Editor.FindEditorsByName(search_query)
+            if search_query == "":
+                query = "All Editors"
+            else:
+                query = "editors by name of " + search_query
+            return render(request, 'search_result.html', {'person_set':editor_set, 'query': query})
     return render(request, 'search.html')
