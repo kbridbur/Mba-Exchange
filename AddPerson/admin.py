@@ -3,8 +3,7 @@ from .models import *
 
 admin.site.register(Client)
 admin.site.register(Consultant)
-admin.site.register(ServiceList)
-admin.site.register(ServiceEntry)
+admin.site.register(Service)
 admin.site.register(Provider)
 admin.site.register(Editor)
 
