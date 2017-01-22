@@ -1,5 +1,5 @@
 from django import forms
-from AddPerson.models import Client, Consultant, Editor, Provider, AddmissionsList, AddmissionsEntry
+from AddPerson.models import Client, Consultant, Editor, Provider, AddmissionsService, Service
 import mbaexchange.multiforms as mult
 
 
@@ -11,7 +11,7 @@ class ClientForm(forms.ModelForm):
 class ConsultantForm(forms.ModelForm):
     class Meta:
         model = Consultant
-        fields = '__all__'
+        exclude = ['clients']
 
 class EditorForm(forms.ModelForm):
     class Meta:
@@ -21,20 +21,20 @@ class EditorForm(forms.ModelForm):
 class ProviderForm(forms.ModelForm):
     class Meta:
         model = Provider
+        exclude = ['clients']
+
+class AddmissionsServiceForm(forms.ModelForm):
+    class Meta:
+        model = AddmissionsService
         fields = '__all__'
 
-class AddmissionsListForm(forms.ModelForm):
+class ServiceForm(forms.ModelForm):
     class Meta:
-        model = AddmissionsList
-        fields = '__all__'
-
-class AddmissionsEntryForm(forms.ModelForm):
-    class Meta:
-        model = AddmissionsEntry
+        model = Service
         fields = '__all__'
 
 class AddmissionsPackageForm(mult.BaseMultipleFormsView):
     template_name = 'addmissions_packages_template.html'
-    form_classes = {'container': AddmissionsListForm,
-                 'entries': AddmissionsEntryForm}
+    form_classes = {'container': AddmissionsServiceForm,
+                 'entries': ServiceForm}
     success_url = 'Add/'

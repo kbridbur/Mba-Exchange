@@ -22,7 +22,14 @@ class Client(models.Model):
                 return by_first_name
             return by_last_name
         else: #first and last name
-            return Client.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
+            return Client.objects.select_related(first_name = name_arr[0]).all()
+            #return Client.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
+
+    @staticmethod
+    def GetServices(name):
+        name_arr = name.split(" ") #split potential first and last name
+        name_arr = [item for item in name_arr if item != ""] #remove empty strings
+        Client.objects.select_related(first_name = name_arr[0], last_name = name_arr[1]).all()
 
     def CreateClient(cls, first_name, last_name):
         client = cls(first_name = first_name,
