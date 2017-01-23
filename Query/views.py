@@ -1,9 +1,19 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from AddPerson.models import Client, Consultant, Provider, Editor
 
 def index(request):
-    return HttpResponse("Search the database here!")
+    urls = ['Client', 'Consultant', 'Editor', 'Provider']
+    if 'Client' in request.POST:
+        return HttpResponseRedirect('/Search/search clients/')
+    elif 'Consultant' in request.POST:
+        return HttpResponseRedirect('/Search/search consultants/')
+    elif 'Editor' in request.POST:
+        return HttpResponseRedirect('/Search/search editors/')
+    elif 'Provider' in request.POST:
+        return HttpResponseRedirect('/Search/search providers/')
+    return render(request, 'index_page.html', {'urls':urls, 'action':'search'})
+
 # Create your views here.
 def client_search(request):
     if request.method == 'GET': # If the form is submitted

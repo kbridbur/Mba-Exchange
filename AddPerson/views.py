@@ -6,8 +6,16 @@ from AddPerson.forms import ClientForm, ConsultantForm, EditorForm, ProviderForm
 from AddPerson.models import Client, Consultant, Editor, Provider
 
 def index(request):
-    return HttpResponse('Welcome')
-    #some buttons that go to each of the different places
+    urls = ['Client', 'Consultant', 'Editor', 'Provider']
+    if 'Client' in request.POST:
+        return HttpResponseRedirect('/Add/add client/')
+    elif 'Consultant' in request.POST:
+        return HttpResponseRedirect('/Add/add consultant/')
+    elif 'Editor' in request.POST:
+        return HttpResponseRedirect('/Add/add editor/')
+    elif 'Provider' in request.POST:
+        return HttpResponseRedirect('/Add/add provider/')
+    return render(request, 'index_page.html', {'urls':urls, 'action':'add'})
 
 def add_client(request):
     if request.method == 'POST':
