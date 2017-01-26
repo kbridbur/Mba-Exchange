@@ -16,9 +16,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from . import views
+
 urlpatterns = [
-    url(r'^Add/', include('AddPerson.urls')),
+    url(r'^$', views.index, name = 'homepage'),
+    url(r'^add/', include('AddPerson.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^Remove/', include('RemovePerson.urls')),
-    url(r'^Search/', include('Query.urls')),
+    url(r'^edit/', include('EditPerson.urls')),
+    url(r'^search/', include('Query.urls')),
 ]

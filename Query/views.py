@@ -5,13 +5,13 @@ from AddPerson.models import Client, Consultant, Provider, Editor
 def index(request):
     urls = ['Client', 'Consultant', 'Editor', 'Provider']
     if 'Client' in request.POST:
-        return HttpResponseRedirect('/Search/search clients/')
+        return HttpResponseRedirect('/search/search clients/')
     elif 'Consultant' in request.POST:
-        return HttpResponseRedirect('/Search/search consultants/')
+        return HttpResponseRedirect('/search/search consultants/')
     elif 'Editor' in request.POST:
-        return HttpResponseRedirect('/Search/search editors/')
+        return HttpResponseRedirect('/search/search editors/')
     elif 'Provider' in request.POST:
-        return HttpResponseRedirect('/Search/search providers/')
+        return HttpResponseRedirect('/search/search providers/')
     return render(request, 'index_page.html', {'urls':urls, 'action':'search'})
 
 # Create your views here.

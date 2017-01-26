@@ -9,6 +9,10 @@ class Client(models.Model):
     first_name = models.CharField(max_length = 100, blank = True, null = True)
     last_name = models.CharField(max_length = 100, blank = True, null = True)
 
+    '''
+    @param name string of name to be returned, if empty returns all clients
+    @returns requested client(s)
+    '''
     @staticmethod
     def FindClientsByName(name):
         name_arr = name.split(" ") #split potential first and last name
@@ -18,18 +22,12 @@ class Client(models.Model):
         elif len(name_arr) == 1: #just first name or last name
             by_first_name = Client.objects.filter(first_name=name_arr[0]).order_by('first_name', 'last_name').all()
             by_last_name = Client.objects.filter(last_name=name_arr[0]).order_by('first_name', 'last_name').all()
+            print('one')
             if len(by_first_name) >= len(by_last_name):
                 return by_first_name
             return by_last_name
         else: #first and last name
-            return Client.objects.select_related(first_name = name_arr[0]).all()
-            #return Client.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
-
-    @staticmethod
-    def GetServices(name):
-        name_arr = name.split(" ") #split potential first and last name
-        name_arr = [item for item in name_arr if item != ""] #remove empty strings
-        Client.objects.select_related(first_name = name_arr[0], last_name = name_arr[1]).all()
+            return Client.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
 
     def CreateClient(cls, first_name, last_name):
         client = cls(first_name = first_name,
@@ -162,7 +160,7 @@ class Service(models.Model):
     end_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
 
     def __str__(self):
-        return str(self.service) + " by " + str(self.provider) + " for " + str(self.client)
+        return str(self.service) + " by " + str(self.provider)
 
 '''
 Entry of an admissions related service
