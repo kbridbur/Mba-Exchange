@@ -32,9 +32,3 @@ class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
         fields = '__all__'
-
-class AddmissionsPackageForm(mult.BaseMultipleFormsView):
-    template_name = 'addmissions_packages_template.html'
-    form_classes = {'container': AddmissionsServiceForm,
-                 'entries': ServiceForm}
-    success_url = 'Add/'

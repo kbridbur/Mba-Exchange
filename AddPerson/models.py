@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 import AddPerson.enumerations as enums
+from itertools import chain
 
 '''
 Represents a client who may have a consultant and one or more packages
@@ -22,10 +23,8 @@ class Client(models.Model):
         elif len(name_arr) == 1: #just first name or last name
             by_first_name = Client.objects.filter(first_name=name_arr[0]).order_by('first_name', 'last_name').all()
             by_last_name = Client.objects.filter(last_name=name_arr[0]).order_by('first_name', 'last_name').all()
-            print('one')
-            if len(by_first_name) >= len(by_last_name):
-                return by_first_name
-            return by_last_name
+            all_client = list(chain(by_first_name,by_last_name))
+            return all_client
         else: #first and last name
             return Client.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
 
@@ -55,9 +54,8 @@ class Editor(models.Model):
         elif len(name_arr) == 1: #just first name or last name
             by_first_name = Editor.objects.filter(first_name=name_arr[0]).order_by('first_name', 'last_name').all()
             by_last_name = Editor.objects.filter(last_name=name_arr[0]).order_by('first_name', 'last_name').all()
-            if len(by_first_name) >= len(by_last_name):
-                return by_first_name
-            return by_last_name
+            all_editor = list(chain(by_first_name,by_last_name))
+            return all_editor
         else: #first and last name
             return Editor.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
 
@@ -86,9 +84,8 @@ class Consultant(models.Model):
         elif len(name_arr) == 1: #just first name or last name
             by_first_name = Consultant.objects.filter(first_name=name_arr[0]).order_by('first_name', 'last_name').all()
             by_last_name = Consultant.objects.filter(last_name=name_arr[0]).order_by('first_name', 'last_name').all()
-            if len(by_first_name) >= len(by_last_name):
-                return by_first_name
-            return by_last_name
+            all_consult = list(chain(by_first_name,by_last_name))
+            return all_consult
         else: #first and last name
             return Consultant.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
 
@@ -132,9 +129,8 @@ class Provider(models.Model):
         elif len(name_arr) == 1: #just first name or last name
             by_first_name = Provider.objects.filter(first_name=name_arr[0]).order_by('first_name', 'last_name').all()
             by_last_name = Provider.objects.filter(last_name=name_arr[0]).order_by('first_name', 'last_name').all()
-            if len(by_first_name) > len(by_last_name):
-                return by_first_name
-            return by_last_name
+            all_providers = list(chain(by_first_name,by_last_name))
+            return all_providers
         else: #first and last name
             return Provider.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
 
@@ -163,6 +159,15 @@ class Service(models.Model):
         return str(self.service) + " by " + str(self.provider)
 
 '''
+School represented by its name
+'''
+class School(models.Model):
+    name = models.CharField(max_length = 255, blank = True, null = True)
+
+    def __str__(self):
+        return self.name
+
+'''
 Entry of an admissions related service
 '''
 class AddmissionsService(models.Model):
@@ -171,4 +176,7 @@ class AddmissionsService(models.Model):
     service = models.CharField(max_length = 20, choices = enums.POSSIBLE_ADMISSIONS_SERVICES, default = enums.POSSIBLE_ADMISSIONS_SERVICES[0][0], blank = True, null = True, db_index = True)
     start_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
     end_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
-    #schools = models.MultipleChoiceField(choices = enums.SCHOOLS, blank = True, null = True, db_index = True)
+    schools = models.ManyToManyField(School)
+
+    def __str__(self):
+        return str(self.service) + " by " + str(self.consultant)
