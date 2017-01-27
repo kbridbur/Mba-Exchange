@@ -1,0 +1,19 @@
+<!Show forms for new services and addmissions services here>
+<h1>
+Current Services:
+</h1>
+<form method="post" action='.'>{% csrf_token %}
+    {{ form1 }}
+    <input type="submit" name='add_addmission' value="Add Addmissions" />
+</form>
+<form method="post" action='.'>{% csrf_token %}
+    {{ form2 }}
+    <input type="submit" name='add_service' value="Add Service" />
+</form>
+<ul>
+{% for service in services %}
+  <li>
+    {{service}}
+  </li>
+{% endfor %}
+</ul>

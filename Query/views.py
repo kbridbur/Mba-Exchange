@@ -12,7 +12,7 @@ def index(request):
         return HttpResponseRedirect('/search/search editors/')
     elif 'Provider' in request.POST:
         return HttpResponseRedirect('/search/search providers/')
-    return render(request, 'index_page.html', {'urls':urls, 'action':'search'})
+    return render(request, 'AddPerson/index_page.html', {'urls':urls, 'action':'search'})
 
 # Create your views here.
 def client_search(request):
@@ -25,8 +25,8 @@ def client_search(request):
                 query = "All Clients"
             else:
                 query = "clients by name of " + search_query
-            return render(request, 'search_result.html', {'person_set':client_set, 'query': query})
-    return render(request, 'search.html')
+            return render(request, 'AddPerson/search_result.html', {'person_set':client_set, 'query': query})
+    return render(request, 'AddPerson/search.html')
 
 def consultant_search(request):
     if request.method == 'GET': # If the form is submitted
@@ -38,8 +38,8 @@ def consultant_search(request):
                 query = "All Consultants"
             else:
                 query = "consultants by name of " + search_query
-            return render(request, 'search_result.html', {'person_set':consultant_set, 'query': query})
-    return render(request, 'search.html')
+            return render(request, 'AddPerson/search_result.html', {'person_set':consultant_set, 'query': query})
+    return render(request, 'AddPerson/search.html')
 
 def provider_search(request):
     if request.method == 'GET': # If the form is submitted
@@ -51,8 +51,8 @@ def provider_search(request):
                 query = "All Providers"
             else:
                 query = "providers by name of " + search_query
-            return render(request, 'search_result.html', {'person_set':provider_set, 'query': query})
-    return render(request, 'search.html')
+            return render(request, 'AddPerson/search_result.html', {'person_set':provider_set, 'query': query})
+    return render(request, 'AddPerson/search.html')
 
 def editor_search(request):
     if request.method == 'GET': # If the form is submitted
@@ -64,5 +64,5 @@ def editor_search(request):
                 query = "All Editors"
             else:
                 query = "editors by name of " + search_query
-            return render(request, 'search_result.html', {'person_set':editor_set, 'query': query})
-    return render(request, 'search.html')
+            return render(request, 'AddPerson/search_result.html', {'person_set':editor_set, 'query': query})
+    return render(request, 'AddPerson/search.html')
