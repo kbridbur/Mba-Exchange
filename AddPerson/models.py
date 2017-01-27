@@ -173,10 +173,10 @@ Entry of an admissions related service
 class AddmissionsService(models.Model):
     client = models.ForeignKey(Client, on_delete = models.PROTECT)
     consultant = models.ForeignKey(Consultant, on_delete = models.PROTECT)
-    service = models.CharField(max_length = 20, choices = enums.POSSIBLE_ADMISSIONS_SERVICES, default = enums.POSSIBLE_ADMISSIONS_SERVICES[0][0], blank = True, null = True, db_index = True)
+    addmissions_service = models.CharField(max_length = 20, choices = enums.POSSIBLE_ADMISSIONS_SERVICES, default = enums.POSSIBLE_ADMISSIONS_SERVICES[0][0], blank = True, null = True, db_index = True)
     start_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
     end_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
     schools = models.ManyToManyField(School)
 
     def __str__(self):
-        return str(self.service) + " by " + str(self.consultant)
+        return str(self.addmissions_service) + " by " + str(self.consultant)
