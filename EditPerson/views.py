@@ -34,5 +34,5 @@ def index(request, client_id):
         form1 = AddmissionsServiceForm()
         form2 = ServiceForm()
 
-    #display
+    #display the stuff
     return render(request, 'services.html', {'services':all_services, 'form1':form1, 'form2':form2})
