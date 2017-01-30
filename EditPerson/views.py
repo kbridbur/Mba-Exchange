@@ -24,11 +24,15 @@ def index(request, client_id):
         if 'add_addmission' in request.POST:
             print('in')
             if form1.is_valid():
-                form1.save()
+                preclient = form1.save(commit = False)
+                preclient.client = client
+                preclient.save()
                 return HttpResponseRedirect('/edit/'+client_id+'/')
         if 'add_service' in request.POST:
             if form2.is_valid():
-                form2.save()
+                preclient = form2.save(commit = False)
+                preclient.client = client
+                preclient.save()
                 return HttpResponseRedirect('/edit/'+client_id+'/')
     else:
         form1 = AddmissionsServiceForm()

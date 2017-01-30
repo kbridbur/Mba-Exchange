@@ -26,7 +26,7 @@ class ProviderForm(forms.ModelForm):
 
 class AddmissionsServiceForm(forms.ModelForm):
 
-    client = forms.ModelChoiceField(queryset = Client.objects.all(), required = False)
+    client = forms.ModelChoiceField(queryset = Client.objects.all(), required = False, widget = forms.HiddenInput())
     consultant = forms.ModelChoiceField(queryset = Consultant.objects.all(), required = False)
     schools = forms.ModelMultipleChoiceField(queryset = School.objects.all(), required = False)
     addmissions_service = forms.ChoiceField(choices=enums.POSSIBLE_ADMISSIONS_SERVICES, required = False)
@@ -37,7 +37,7 @@ class AddmissionsServiceForm(forms.ModelForm):
 
 class ServiceForm(forms.ModelForm):
 
-    client = forms.ModelChoiceField(queryset = Client.objects.all(), required = False)
+    client = forms.ModelChoiceField(queryset = Client.objects.all(), required = False, widget = forms.HiddenInput())
     provider = forms.ModelChoiceField(queryset = Provider.objects.all(), required = False)
     service = forms.ChoiceField(choices=enums.POSSIBLE_SERVICES, required = False)
 
