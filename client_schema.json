@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "properties": {
+    "personal_profile": {
+      "type": "object",
+      "properties": {
+        "full_name": {"type":"string"},
+        "email": {"type":"string"},
+        "phone": {"type":"number"},
+        "city": {"type":"string"},
+        "state": {"type":"string"},
+        "country": {"type":"string"},
+        "other_countries": {"type":"string"},
+        "leadership": {"type":"string"},
+        "diversity": {"type":"boolean"}
+      },
+      "required": ["full_name", "email", "phone", "city", "state", "country"]
+    },
+    "professional_profile": {
+      "type": "object",
+      "properties": {
+        "years_experience": {"type":"number"},
+        "industry": {"type":"string"},
+        "titles": {"type":"string"},
+        "postgrad_career_options": {"type":"string"}
+      }
+    },
+    "academic_profile": {
+      "type": "object",
+      "properties": {
+        "college": {"type":"string"},
+        "major": {"type":"string"},
+        "gpa": {"type":"number"},
+        "major_gpa": {"type":"number"},
+        "leadership_roles": {"type":"string"},
+        "advanced_degrees": {"type":"string"},
+        "grad_school": {"type":"string"},
+        "gmats": {"type":"number"},
+        "gmat_score": {"type":"number"},
+        "gmat_total_percentile": {"type":"number"},
+        "gmat_verbal_percentile": {"type":"number"},
+        "gmat_quant_percentile": {"type":"number"},
+        "gmat_awa": {"type":"number"},
+        "gres": {"type":"number"},
+        "gre_total": {"type":"number"},
+        "gre_verbal_percentile": {"type":"number"},
+        "gre_quant_percentile": {"type":"number"},
+        "gre_awa": {"type":"number"},
+        "lsat_score": {"type":"number"},
+        "lsat_percentile": {"type":"number"}
+      }
+    },
+    "future_goals_section": {
+      "type": "object",
+      "properties": {
+        "target": {"type":"string"},
+        "programs": {"type":"string"},
+        "program_type": {"type":"string"},
+        "schools": {"type":"string"},
+        "submit_time": {"type":"string"},
+        "class_start_time": {"type":"string"},
+        "previously_applied": {"type":"boolean"},
+        "resume": {"type":"string"},
+        "how_heard": {"type":"string"},
+        "additional_info": {"type":"string"}
+      }
+    }
+  },
+  "required": ["personal_profile"]
+}
