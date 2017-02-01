@@ -15,7 +15,6 @@ def index(request, client_id):
     #retrieve both types of services they are recieving and combine
     services = Service.objects.filter(client__id = client_id)
     addmissions_services = AddmissionsService.objects.filter(client__id = client_id)
-    all_services = list(chain(services, addmissions_services))
 
     if request.method == 'POST':
         form1 = AddmissionsServiceForm(request.POST)
@@ -34,9 +33,30 @@ def index(request, client_id):
                 preclient.client = client
                 preclient.save()
                 return HttpResponseRedirect('/edit/'+client_id+'/')
+        delete_info = DeleteService(request.POST)
+        print(delete_info)
+        if delete_info[0] == 'addmissions':
+            AddmissionsService.objects.get(pk=delete_info[1]).delete()
+            print("delete addmissions service")
+            return HttpResponseRedirect('/edit/'+client_id+'/')
+        if delete_info[0] == 'service':
+            Service.objects.get(pk=delete_info[1]).delete()
+            print("delete service")
+            return HttpResponseRedirect('/edit/'+client_id+'/')
     else:
         form1 = AddmissionsServiceForm()
         form2 = ServiceForm()
 
     #display the both forms
-    return render(request, 'AddPerson/services.html', {'services':all_services, 'form1':form1, 'form2':form2})
+    return render(request, 'AddPerson/services.html', {'services':services, 'addmissions_services':addmissions_services, 'form1':form1, 'form2':form2})
+
+def DeleteService(a):
+    keys = a.dict().keys()
+    for key in keys:
+        words = key.split(" ")
+        if 'service' in words:
+            if 'addmissions' in words:
+                print(words[-1])
+                return ('addmissions', words[-1])
+            return ('service', words[-1])
+    return (None, None)

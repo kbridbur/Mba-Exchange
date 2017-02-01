@@ -13,7 +13,18 @@ Current Services:
 <ul>
 {% for service in services %}
   <li>
-    {{service}}
+    <form method="post" action='.'>{% csrf_token %}
+      {{service}}
+      <input type='submit' name='delete service {{service.id}}' value="x" />
+    </form>
+  </li>
+{% endfor %}
+{% for a_service in addmissions_services %}
+  <li>
+    <form method="post" action='.'>{% csrf_token %}
+      {{a_service}}
+      <input type='submit' name='delete addmissions service {{a_service.id}}' value="x" />
+    </form>
   </li>
 {% endfor %}
 </ul>
