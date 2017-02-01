@@ -19,9 +19,7 @@ def index(request, client_id):
     if request.method == 'POST':
         form1 = AddmissionsServiceForm(request.POST)
         form2 = ServiceForm(request.POST)
-        print(request.POST)
         if 'add_addmission' in request.POST:
-            print('in')
             if form1.is_valid():
                 preclient = form1.save(commit = False)
                 preclient.client = client
@@ -34,14 +32,11 @@ def index(request, client_id):
                 preclient.save()
                 return HttpResponseRedirect('/edit/'+client_id+'/')
         delete_info = DeleteService(request.POST)
-        print(delete_info)
         if delete_info[0] == 'addmissions':
             AddmissionsService.objects.get(pk=delete_info[1]).delete()
-            print("delete addmissions service")
             return HttpResponseRedirect('/edit/'+client_id+'/')
         if delete_info[0] == 'service':
             Service.objects.get(pk=delete_info[1]).delete()
-            print("delete service")
             return HttpResponseRedirect('/edit/'+client_id+'/')
     else:
         form1 = AddmissionsServiceForm()
@@ -50,13 +45,17 @@ def index(request, client_id):
     #display the both forms
     return render(request, 'AddPerson/services.html', {'services':services, 'addmissions_services':addmissions_services, 'form1':form1, 'form2':form2})
 
+'''
+@param a QueryDict of a post request
+Look through a post request and find ids of objects to be deleted
+@return a tuple of instruction and item to execute that instruction upon, tuple of Nones should there be nothing to do.
+'''
 def DeleteService(a):
     keys = a.dict().keys()
     for key in keys:
         words = key.split(" ")
         if 'service' in words:
             if 'addmissions' in words:
-                print(words[-1])
                 return ('addmissions', words[-1])
             return ('service', words[-1])
     return (None, None)
