@@ -43,7 +43,7 @@ def index(request, client_id):
         form2 = ServiceForm()
 
     #display the both forms
-    return render(request, 'AddPerson/services.html', {'services':services, 'addmissions_services':addmissions_services, 'form1':form1, 'form2':form2})
+    return render(request, 'AddPerson/services.html', {'services':services, 'addmissions_services':addmissions_services, 'form1':form1, 'form2':form2, "client_display":client.GetDisplayFields()})
 
 '''
 @param a QueryDict of a post request

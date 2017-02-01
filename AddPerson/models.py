@@ -28,10 +28,9 @@ class Client(models.Model):
         else: #first and last name
             return Client.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
 
-    def CreateClient(cls, first_name, last_name):
-        client = cls(first_name = first_name,
-                    last_name = last_name)
-        return client
+    def GetDisplayFields(self):
+        return [self.first_name, self.last_name]
+
     #returns client name as a string
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -96,15 +95,6 @@ class Consultant(models.Model):
             clients.add(package.container.client)
         return clients
 
-    def CreateConsultant(cls, payment, first_name, last_name, specialty, address, editor):
-        consultant = cls(payment = payment,
-                    first_name = first_name,
-                    last_name = last_name,
-                    consultant_specialty = specialty,
-                    consultant_address = address,
-                    editor = editor)
-        return consultant
-
     def __str__(self):
         return self.first_name + " " + self.last_name
 
@@ -133,14 +123,6 @@ class Provider(models.Model):
             return all_providers
         else: #first and last name
             return Provider.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
-
-    def CreateProvider(cls, payment, first_name, last_name, specialty, address):
-        provider = cls(payment = payment,
-                    first_name = first_name,
-                    last_name = last_name,
-                    provider_specialty = specialty,
-                    provider_address = address)
-        return provider
 
     def __str__(self):
         return self.first_name + " " + self.last_name
