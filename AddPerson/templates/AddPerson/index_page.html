@@ -1,6 +1,24 @@
-<h1> {{action}} </h1>
-<form action="." method="post">{% csrf_token %}
-  {% for i in urls %}
-    <td><input type="submit" value= {{ i }} name= {{ i }}></td>
-  {% endfor %}
-</form>
+<head>
+<title>MBA Exchange</title>
+<link rel="shortcut icon" type="image/png" href="/../../static/AddPerson/images/favicon.png" />
+<link rel="stylesheet" type="text/css" href="/../../static/AddPerson/css/main.css" />
+</head>
+
+<body>
+  <div id='box'>
+    <a href='/'>
+      <img id='logo' src='/../../static/AddPerson/images/favicon.png' />
+      <h1 id='title'> Client Manager </h1>
+    </a>
+    <hr>
+    <div id='content'>
+      <h3> {{action}} </h3>
+      <form action="." method="post">{% csrf_token %}
+        {% for i in urls %}
+          <td><input type="submit" value= {{ i }} name= {{ i }}></td>
+        {% endfor %}
+      </form>
+    </div>
+    <div id='shadow'></div>
+  </div>
+</body>
