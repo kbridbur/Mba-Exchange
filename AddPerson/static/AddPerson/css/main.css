@@ -2,7 +2,7 @@ body{
   /*background-color: #a3a0a0*/
   background: url('/../../static/AddPerson/images/background2.jpg');
   background-size: 100%;
-  background-repeat: none;
+  /*background-repeat: none;*/
 }
 
 a {
@@ -17,7 +17,7 @@ a:hover{
   color:000;
 }
 
-input[type=submit] {
+input[type=button] {
   padding: 5px;
   padding-right: 10px;
   padding-left: 10px;
@@ -27,15 +27,15 @@ input[type=submit] {
   border-radius: 10px;
 }
 
-input[type=submit]:hover {
+input[type=button]:hover {
   background-color: #7f7f7f
 }
 
-input[type=submit]:active {
+input[type=button]:active {
   outline:none;
 }
 
-input[type=submit]:focus {
+input[type=button]:focus {
   outline:none;
 }
 
@@ -68,4 +68,13 @@ input[type=submit]:focus {
   text-align: center;
   width: 80%;
   margin: auto;
+}
+
+.hidden {
+  display: none
+}
+
+#searchbox {
+  border-radius: 10px;
+  padding: 5px;
 }
