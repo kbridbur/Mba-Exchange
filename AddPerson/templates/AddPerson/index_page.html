@@ -15,24 +15,33 @@
     <hr>
     <div id='content'>
       <h3> {{action}} </h3>
-      <form action="." method="post">{% csrf_token %}
-        {% for i in urls %}
-          <td><input class='selectsearch' type="button" value= {{ i }}></td>
-        {% endfor %}
-      </form>
-      <div id='client_search' class='hidden searchbox' name='client_search'>
-        <input placeholder="Search clients...">
-      </div>
-      <div id='consultant_search' class='hidden searchbox' name='consultant_search'>
-        <input placeholder="Search consultants...">
-      </div>
-      <div id='editor_search' class='hidden searchbox' name='editor_search'>
-        <input placeholder="Search editors...">
-      </div>
-      <div id='provider_search' class='hidden searchbox' name='provider_search'>
-        <input placeholder="Search providers...">
-      </div>
-      <button type="submit" class='hidden' id='searchbutton'>Search</button>
+      {% for i in urls %}
+        <td><input class='selectsearch' type="button" value= {{ i }}></td>
+      {% endfor %}
+        <div id='client_search' class='hidden searchbox'>
+          <form type='get' action='.' style="margin: 0">
+            <input id='search_box' name='client_search' placeholder="Search clients...">
+            <button type="submit" id='searchbutton'>Search</button>
+          </form>
+        </div>
+        <div id='consultant_search' class='hidden searchbox'>
+          <form type='get' action='.' style="margin: 0">
+            <input id='search_box' name='consultant_search' placeholder="Search consultants...">
+            <button type="submit" id='searchbutton'>Search</button>
+          </form>
+        </div>
+        <div id='editor_search' class='hidden searchbox'>
+          <form type='get' action='.' style="margin: 0">
+            <input id='search_box' name='editor_search' placeholder="Search editors...">
+            <button type="submit" id='searchbutton'>Search</button>
+          </form>
+        </div>
+        <div id='provider_search' class='hidden searchbox'>
+          <form type='get' action='.' style="margin: 0">
+            <input id='search_box' name='provider_search' placeholder="Search providers...">
+            <button type="submit" id='searchbutton'>Search</button>
+          </form>
+        </div>
     </div>
     <div id='shadow'></div>
   </div>

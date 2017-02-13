@@ -11,7 +11,8 @@ def index(request):
         provider_query = request.GET.get('provider_search', None)
         editor_query = request.GET.get('editor_search', None)
         client_query = request.GET.get('client_search', None)
-
+        print(request.GET)
+        print(client_query)
         #check which was queried and search appropriately
         if (client_query != None):
             client_set = Client.FindClientsByName(client_query)
@@ -41,5 +42,4 @@ def index(request):
             else:
                 query = "editors by name of " + editor_query
             return render(request, 'AddPerson/search_result.html', {'person_set':editor_set, 'query': query})
-
     return render(request, 'AddPerson/index_page.html', {'urls':urls, 'action':'search'})
