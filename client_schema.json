@@ -1,6 +1,7 @@
 {
   "type": "object",
   "properties": {
+    "application_type": {"type":"string"},
     "personal_profile": {
       "type": "object",
       "properties": {
@@ -66,5 +67,5 @@
       }
     }
   },
-  "required": ["personal_profile"]
+  "required": ["personal_profile", "application_type"]
 }

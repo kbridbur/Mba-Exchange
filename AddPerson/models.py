@@ -7,6 +7,7 @@ from itertools import chain
 Represents a client who may have a consultant and one or more packages
 '''
 class Client(models.Model):
+    application_type = models.CharField(max_length = 50, blank = True, null = True)
     first_name = models.CharField(max_length = 100, blank = True, null = True)
     last_name = models.CharField(max_length = 100, blank = True, null = True)
     email = models.EmailField(blank = True, null = True)
