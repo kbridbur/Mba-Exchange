@@ -8,14 +8,14 @@ from AddPerson.models import Client, Consultant, Editor, Provider
 def index(request):
     urls = ['Client', 'Consultant', 'Editor', 'Provider']
     if 'Client' in request.POST:
-        return HttpResponseRedirect('/add/add client/')
+        return HttpResponseRedirect('/add/client/')
     elif 'Consultant' in request.POST:
-        return HttpResponseRedirect('/add/add consultant/')
+        return HttpResponseRedirect('/add/consultant/')
     elif 'Editor' in request.POST:
-        return HttpResponseRedirect('/add/add editor/')
+        return HttpResponseRedirect('/add/editor/')
     elif 'Provider' in request.POST:
-        return HttpResponseRedirect('/add/add provider/')
-    return render(request, 'AddPerson/index_page.html', {'urls':urls, 'action':'add'})
+        return HttpResponseRedirect('/add/provider/')
+    return render(request, 'AddPerson/add_index.html', {'urls':urls})
 
 def add_client(request):
     if request.method == 'POST':

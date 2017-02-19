@@ -1,0 +1,38 @@
+{% extends 'AddPerson/base.html' %}
+
+{% block content %}
+
+<h2> Search </h2>
+
+{% for i in urls %}
+
+<input class='selectsearch button' type="button" value= {{ i }}>
+
+{% endfor %}
+
+<div id='client_search' class='hidden searchdrop'>
+  <form type='get' action='.' style="margin: 0">
+    <input id='search_box' class='searchbox' name='client_search' placeholder="Search clients...">
+    <button type="submit" id='searchbutton' class='button'>Go</button>
+  </form>
+</div>
+<div id='consultant_search' class='hidden searchdrop'>
+  <form type='get' action='.' style="margin: 0">
+    <input id='search_box' class='searchbox' name='consultant_search' placeholder="Search consultants...">
+    <button type="submit" id='searchbutton' class='button'>Go</button>
+  </form>
+</div>
+<div id='editor_search' class='hidden searchdrop'>
+  <form type='get' action='.' style="margin: 0">
+    <input id='search_box' class='searchbox' name='editor_search' placeholder="Search editors...">
+    <button type="submit" id='searchbutton' class='button'>Go</button>
+  </form>
+</div>
+<div id='provider_search' class='hidden searchdrop'>
+  <form type='get' action='.' style="margin: 0">
+    <input id='search_box' class='searchbox' name='provider_search' placeholder="Search providers...">
+    <button type="submit" id='searchbutton' class='button'>Go</button>
+  </form>
+</div>
+
+{% endblock content %}
