@@ -42,4 +42,4 @@ def index(request):
             else:
                 query = "editors by name of " + editor_query
             return render(request, 'AddPerson/search_result.html', {'person_set':editor_set, 'query': query})
-    return render(request, 'AddPerson/search_index.html', {'urls':urls, 'action':'search'})
+    return render(request, 'AddPerson/search_index.html', {'urls':urls})

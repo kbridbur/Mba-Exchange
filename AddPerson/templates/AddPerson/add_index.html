@@ -1,0 +1,9 @@
+{% extends 'AddPerson/base.html' %}
+
+{% block content %}
+<h1> Add </h1>
+{% for i in urls %}
+<input class='button' type="button" value= {{ i }}>
+{% endfor %}
+
+{% endblock content %}
