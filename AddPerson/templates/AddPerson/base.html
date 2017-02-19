@@ -1,9 +1,12 @@
 <head>
 <title>MBA Exchange</title>
+{% load static %}
+
 <link rel="shortcut icon" type="image/png" href="/../../static/AddPerson/images/favicon.png" />
-<link rel="stylesheet" type="text/css" href="/../../static/AddPerson/css/main.css" />
+<link rel="stylesheet" type="text/css" href="{% static 'AddPerson/css/main.css' %}" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="/../../static/AddPerson/scripts/search.js"></script>
+<script src="{% static 'AddPerson/scripts/add.js' %}"></script>
+<script src="{% static 'AddPerson/scripts/search.js' %}"></script>
 </head>
 
 <body>
