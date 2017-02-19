@@ -62,13 +62,13 @@ h1 {
 }
 
 #logo {
-  width: 150px;
+  width: 100px;
 }
 
 #title {
   position: absolute;
   right: 40px;
-  top: 70px;
+  top: 20px;
   display: inline-block;
   font-size: 24pt;
 }
