@@ -15,7 +15,7 @@ def index(request):
         return HttpResponseRedirect('/add/add editor/')
     elif 'Provider' in request.POST:
         return HttpResponseRedirect('/add/add provider/')
-    return render(request, 'AddPerson/index_page.html', {'urls':urls, 'action':'add'})
+    return render(request, 'AddPerson/add_index.html', {'urls':urls})
 
 def add_client(request):
     if request.method == 'POST':

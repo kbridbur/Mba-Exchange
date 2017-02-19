@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^$', views.index, name = 'homepage'),
     url(r'^add/', include('AddPerson.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^reports/', include('reports.urls')),
     url(r'^edit/', include('EditPerson.urls')),
     url(r'^search/', include('Query.urls')),
 ]

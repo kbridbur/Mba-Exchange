@@ -8,4 +8,4 @@ def index(request):
         return HttpResponseRedirect('/add/')
     elif 'search' in request.POST:
         return HttpResponseRedirect('/search/')
-    return render(request, 'AddPerson/index_page.html', {'urls':urls, 'action':'index'})
+    return render(request, 'AddPerson/index.html', {'urls':urls, 'action':'index'})
