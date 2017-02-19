@@ -1,5 +1,11 @@
+{% extends 'AddPerson/base.html' %}
+
+{% block content %}
+
 <form method="post" action="">{% csrf_token %}
     {{ form }}
-    <input type="submit" name='Submit one' value="Save and Continue" />
-    <input type="submit" name='Submit another' value="Save and Add Another" />
+    <input class='button' type="submit" name='Submit one' value="Save and Continue" />
+    <input class='button' type="submit" name='Submit another' value="Save and Add Another" />
 </form>
+
+{% endblock content %}

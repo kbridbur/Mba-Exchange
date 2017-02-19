@@ -23,7 +23,7 @@ def add_client(request):
         if form.is_valid():
             form.save()
             if 'Submit another' in request.POST:
-                return HttpResponseRedirect('/add/add client/')
+                return HttpResponseRedirect('/add/client/')
             elif 'Submit one' in request.POST:
                 return HttpResponseRedirect('/add/') #Where to redirect after the submit button is hit
     else:
@@ -36,7 +36,7 @@ def add_consultant(request):
         if form.is_valid():
             form.save()
             if 'Submit another' in request.POST:
-                return HttpResponseRedirect('/add/add consultant/')
+                return HttpResponseRedirect('/add/consultant/')
             elif 'Submit one' in request.POST:
                 return HttpResponseRedirect('/add/') #Where to redirect after the submit button is hit
     else:
@@ -49,7 +49,7 @@ def add_editor(request):
         if form.is_valid():
             form.save()
             if 'Submit another' in request.POST:
-                return HttpResponseRedirect('/add/add editor/')
+                return HttpResponseRedirect('/add/editor/')
             elif 'Submit one' in request.POST:
                 return HttpResponseRedirect('/add/') #Where to redirect after the submit button is hit
     else:
@@ -62,7 +62,7 @@ def add_provider(request):
         if form.is_valid():
             form.save()
             if 'Submit another' in request.POST:
-                return HttpResponseRedirect('/add/add provider/')
+                return HttpResponseRedirect('/add/provider/')
             elif 'Submit one' in request.POST:
                 return HttpResponseRedirect('/add/') #Where to redirect after the submit button is hit
     else:
