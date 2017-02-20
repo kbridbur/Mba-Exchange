@@ -23,12 +23,12 @@ def add_client(request):
         if form.is_valid():
             form.save()
             if 'Submit another' in request.POST:
-                return HttpResponseRedirect('/add/add client/')
+                return HttpResponseRedirect('/add/client/')
             elif 'Submit one' in request.POST:
                 return HttpResponseRedirect('/add/') #Where to redirect after the submit button is hit
     else:
         form = ClientForm()
-    return render(request, 'AddPerson/add_client.html', {'form': form})
+    return render(request, 'AddPerson/add_client.html', {'form': form, 'type': 'Add Client'})
 
 def add_consultant(request):
     if request.method == 'POST':
@@ -36,12 +36,12 @@ def add_consultant(request):
         if form.is_valid():
             form.save()
             if 'Submit another' in request.POST:
-                return HttpResponseRedirect('/add/add consultant/')
+                return HttpResponseRedirect('/add/consultant/')
             elif 'Submit one' in request.POST:
                 return HttpResponseRedirect('/add/') #Where to redirect after the submit button is hit
     else:
         form = ConsultantForm()
-    return render(request, 'AddPerson/add_client.html', {'form': form})
+    return render(request, 'AddPerson/add_client.html', {'form': form, 'type': 'Add Consultant'})
 
 def add_editor(request):
     if request.method == 'POST':
@@ -49,12 +49,12 @@ def add_editor(request):
         if form.is_valid():
             form.save()
             if 'Submit another' in request.POST:
-                return HttpResponseRedirect('/add/add editor/')
+                return HttpResponseRedirect('/add/editor/')
             elif 'Submit one' in request.POST:
                 return HttpResponseRedirect('/add/') #Where to redirect after the submit button is hit
     else:
         form = EditorForm()
-    return render(request, 'AddPerson/add_client.html', {'form': form})
+    return render(request, 'AddPerson/add_client.html', {'form': form, 'type': 'Add Editor'})
 
 def add_provider(request):
     if request.method == 'POST':
@@ -62,9 +62,9 @@ def add_provider(request):
         if form.is_valid():
             form.save()
             if 'Submit another' in request.POST:
-                return HttpResponseRedirect('/add/add provider/')
+                return HttpResponseRedirect('/add/provider/')
             elif 'Submit one' in request.POST:
                 return HttpResponseRedirect('/add/') #Where to redirect after the submit button is hit
     else:
         form = ProviderForm()
-    return render(request, 'AddPerson/add_client.html', {'form': form})
+    return render(request, 'AddPerson/add_client.html', {'form': form, 'type': 'Add Provider'})

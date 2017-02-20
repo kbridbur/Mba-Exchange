@@ -1,5 +1,12 @@
-<form method="post" action="">{% csrf_token %}
-    {{ form }}
-    <input type="submit" name='Submit one' value="Save and Continue" />
-    <input type="submit" name='Submit another' value="Save and Add Another" />
+{% extends 'AddPerson/base.html' %}
+
+{% block content %}
+<h1>{{type}}</h1>
+<form method="post" action="" id='add-form'>{% csrf_token %}
+    {{ form.as_ul}}
+    <br><br>
+    <input class='button' type="submit" name='Submit one' value="Save and Continue" />
+    <input class='button' type="submit" name='Submit another' value="Save and Add Another" />
 </form>
+
+{% endblock content %}

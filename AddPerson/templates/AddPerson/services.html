@@ -1,21 +1,25 @@
+{% extends 'AddPerson/base.html' %}
+
+{% block content %}
+
 <!--Show forms for new services and addmissions services here-->
 <h1>
 Current Services:
 </h1>
 <form method="post" action='.'>{% csrf_token %}
-    {{ form1 }}
-    <input type="submit" name='add_addmission' value="Add Addmissions" />
+    {{ form1.as_ul }}
+    <input type="submit" class='button' name='add_addmission' value="Add Addmissions" />
 </form>
 <form method="post" action='.'>{% csrf_token %}
-    {{ form2 }}
-    <input type="submit" name='add_service' value="Add Service" />
+    {{ form2.as_ul }}
+    <input type="submit" class='button' name='add_service' value="Add Service" />
 </form>
 <ul>
 {% for service in services %}
   <li>
     <form method="post" action='.'>{% csrf_token %}
       {{service}}
-      <input type='submit' name='delete service {{service.id}}' value="x" />
+      <input type='submit' class='button' name='delete service {{service.id}}' value="x" />
     </form>
   </li>
 {% endfor %}
@@ -23,7 +27,7 @@ Current Services:
   <li>
     <form method="post" action='.'>{% csrf_token %}
       {{a_service}}
-      <input type='submit' name='delete addmissions service {{a_service.id}}' value="x" />
+      <input type='submit' class='button' name='delete addmissions service {{a_service.id}}' value="x" />
     </form>
   </li>
 {% endfor %}
@@ -33,3 +37,5 @@ Current Services:
   {{field}}
   {% endfor %}
 </ul>
+
+{% endblock content %}
