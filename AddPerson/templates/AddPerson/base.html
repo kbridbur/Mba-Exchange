@@ -1,23 +1,25 @@
 <head>
-<title>MBA Exchange</title>
-{% load static %}
+  <title>MBA Exchange</title>
+  {% load static %}
 
-<link rel="shortcut icon" type="image/png" href="{% static 'AddPerson/images/favicon.png' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'AddPerson/css/main.css' %}" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="{% static 'AddPerson/scripts/add.js' %}"></script>
-<script src="{% static 'AddPerson/scripts/search.js' %}"></script>
+  <link rel="shortcut icon" type="image/png" href="{% static 'AddPerson/images/favicon.png' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'AddPerson/css/main.css' %}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="{% static 'AddPerson/scripts/add.js' %}"></script>
+  <script src="{% static 'AddPerson/scripts/search.js' %}"></script>
 </head>
 
 <body>
   <div id='box'>
-    <a href='/'>
-      <img id='logo' src="{% static 'AddPerson/images/no-outline.png' %}" />
-    </a>
-    <a href='/'>
-      <h1 id='title'> Client Manager </h1>
-    </a>
-    <hr>
+    <div id='header'>
+      <a href='/'>
+        <img id='logo' src="{% static 'AddPerson/images/no-outline.png' %}" />
+      </a>
+      <a href='/'>
+        <h1 id='title'> Client Manager </h1>
+      </a>
+      <hr>
+    </div>
     <div id='content'>
       {% block content %}
       {% endblock %}
