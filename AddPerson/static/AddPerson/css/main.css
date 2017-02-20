@@ -90,10 +90,11 @@ input:focus {
   width: inherit;
   top: 96px;
   background-color: #fff;
+  min-width: 360px;
 }
 
 #logo {
-  width: 100px;
+  width: 120px;
   padding-top: 15px;
 }
 
