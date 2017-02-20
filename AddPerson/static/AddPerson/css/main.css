@@ -5,7 +5,7 @@
 body{
   font-weight: 200;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; 
-  background: url('/../../static/AddPerson/images/background2.jpg');
+  background: url('/../../static/AddPerson/images/backgroundv.png');
   background-size: 100%;
   list-style: none;
 }
@@ -75,33 +75,24 @@ input:focus {
   position: relative;
   background-color: #fff;
   padding: 20px;
-  top: 11%;
+  top: 15%;
   width: 50%;
   margin:auto;
   box-shadow: 10px 10px 40px #000;
   border-radius: 8px;
   min-width: 350px;
-  max-height: 70%;
+  max-height: 60%;
   overflow: scroll
-}
-
-#header {
-  position: fixed;
-  width: inherit;
-  top: 96px;
-  background-color: #fff;
-  min-width: 360px;
 }
 
 #logo {
   width: 120px;
-  padding-top: 15px;
 }
 
 #title {
   position: absolute;
   right: 40px;
-  top: 20px;
+  top: 30px;
   display: inline-block;
   font-size: 24pt;
 }
@@ -110,7 +101,6 @@ input:focus {
   text-align: center;
   width: 90%;
   margin: auto;
-  padding-top: 80px;
 }
 
 .hidden {
@@ -145,6 +135,15 @@ input:focus {
 /****************************************************************/
 
 #add-form {
+  text-align: left;
+  margin-left: 50px;
+}
+
+/*****************************************************************/
+/***********************---SERVICES---****************************/
+/*****************************************************************/
+
+#services-form {
   text-align: left;
   margin-left: 50px;
 }
