@@ -1,5 +1,9 @@
+
 from django.shortcuts import render
-import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import xlsxwriter
 from itertools import chain
 
@@ -11,7 +15,6 @@ def index(request):
     xlsx_data = CreateClientRoster(start_date, end_date)
     response.write(xlsx_data)
     return response
-
 
 
 
@@ -47,26 +50,27 @@ def CreateClientRoster(start_date, end_date):
     service_list = Service.objects.filter(start_date__range=[str(start_date), str(end_date)])
     admission_list = AddmissionsService.objects.filter(start_date__range=[str(start_date), str(end_date)])
     result_list = list(chain(service_list, admission_list))
-    client_list = set()
-    for i in result_list:
-        client_list.add(i.client)
 
-    for idx, data in enumerate(client_list):
+    for idx, data in enumerate(result_list):
         row = 1 + idx
-        worksheet_s.write_string(row, 0, data.last_name, cell)
-        worksheet_s.write_string(row, 1, data.first_name, cell)
-        worksheet_s.write_string(row, 2, data.email, cell)
+        school_col = 7
+        worksheet_s.write_string(row, 0, data.client.last_name, cell)
+        worksheet_s.write_string(row, 1, data.client.first_name, cell)
+        worksheet_s.write_string(row, 2, data.client.email, cell)
         worksheet_s.write_string(row, 3, "??????", cell)
-        worksheet_s.write_string(row, 4, "??????", cell)
-        worksheet_s.write_string(row, 5, "??????", cell)
-        worksheet_s.write_string(row, 6, "??????", cell)
-        worksheet_s.write_string(row, 7, "??????", cell)
-        worksheet_s.write_string(row, 8, "??????", cell)
-        worksheet_s.write_string(row, 9, "??????", cell)
-        worksheet_s.write_string(row, 10, "??????", cell)
-        worksheet_s.write_string(row, 11, "??????", cell)
-        worksheet_s.write_string(row, 12, "??????", cell)
-        worksheet_s.write_string(row, 13, "??????", cell)
+        try:
+            worksheet_s.write_string(row, 4, data.consultant.first_name, cell)
+            worksheet_s.write_string(row, 5, data.consultant.last_name, cell)
+            worksheet_s.write_string(row, 6, data.consultant.payment, cell)
+        except:
+            worksheet_s.write_string(row, 4, data.provider.first_name, cell)
+            worksheet_s.write_string(row, 5, data.provider.last_name, cell)
+            worksheet_s.write_string(row, 6, data.provider.payment, cell)
+        try:
+            for school in data.schools:
+                worksheet_s.write_string(row, school_col, school.name, cell)
+                school_col += 1
+        worksheet_s.write_string(row, school_col, data.client.comments, cell)
 
 
     workbook.close()

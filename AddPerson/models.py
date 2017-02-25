@@ -52,7 +52,7 @@ class Client(models.Model):
     resume = models.CharField(max_length = 5000, blank = True, null = True)
     how_heard = models.CharField(max_length = 100, blank = True, null = True)
     additional_info = models.CharField(max_length = 200, blank = True, null = True)
-
+    comments = models.CharField(max_length = 1000, blank = True, null = True)
 
     '''
     @param name string of name to be returned, if empty returns all clients
@@ -68,9 +68,13 @@ class Client(models.Model):
             by_first_name = Client.objects.filter(first_name=name_arr[0]).order_by('first_name', 'last_name').all()
             by_last_name = Client.objects.filter(last_name=name_arr[0]).order_by('first_name', 'last_name').all()
             all_client = list(chain(by_first_name,by_last_name))
-            return all_client
+            by_name = all_client
         else: #first and last name
-            return Client.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
+            by_name = Client.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
+
+        by_comments = Client.objects.filter(comments__contains=name)
+
+        return list(chain(by_comments, by_name))
 
     def GetDisplayFields(self):
         return [self.first_name, self.last_name]
