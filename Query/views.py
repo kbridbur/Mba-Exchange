@@ -11,8 +11,6 @@ def index(request):
         provider_query = request.GET.get('provider_search', None)
         editor_query = request.GET.get('editor_search', None)
         client_query = request.GET.get('client_search', None)
-        print(request.GET)
-        print(client_query)
         #check which was queried and search appropriately
         if (client_query != None):
             client_set = Client.FindClientsByName(client_query)

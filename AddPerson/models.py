@@ -121,6 +121,16 @@ class Consultant(models.Model):
     consultant_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES, default = enums.SPECIALTIES[0][0], blank = True, null = True)
     consultant_address = models.CharField(max_length = 200, blank = True, null = True)
     editor = models.ForeignKey(Editor, blank = True, null = True)
+    round_one_capacity = models.IntegerField(default = 0, blank = True, null = True)
+    round_two_capacity = models.IntegerField(default = 0, blank = True, null = True)
+    hourly_capability = models.NullBooleanField(default = False, blank = True, null = True)
+    comments = models.CharField(max_length = 1000, blank = True, null = True)
+    email = models.CharField(max_length = 100, blank = True, null = True)
+    alternate_email = models.CharField(max_length = 100, blank = True, null = True)
+    day_phone = models.CharField(max_length = 10, blank = True, null = True)
+    evening_phone = models.CharField(max_length = 10, blank = True, null = True)
+    text_phone = models.CharField(max_length = 10, blank = True, null = True)
+    skype = models.CharField(max_length = 20, blank = True, null = True)
 
     @staticmethod
     def FindConsultantsByName(name):
@@ -131,17 +141,14 @@ class Consultant(models.Model):
         elif len(name_arr) == 1: #just first name or last name
             by_first_name = Consultant.objects.filter(first_name=name_arr[0]).order_by('first_name', 'last_name').all()
             by_last_name = Consultant.objects.filter(last_name=name_arr[0]).order_by('first_name', 'last_name').all()
-            all_consult = list(chain(by_first_name,by_last_name))
-            return all_consult
+            all_consultant = list(chain(by_first_name,by_last_name))
+            by_name = all_consultant
         else: #first and last name
-            return Consultant.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
+            by_name = Consultant.objects.filter(first_name=name_arr[0], last_name=name_arr[1]).order_by('first_name', 'last_name').all()
 
-    @staticmethod
-    def GetClients(first_name, last_name):
-        clients = set()
-        for package in Consultant.objects.select_related(first_name = first_name, last_name = last_name).all():
-            clients.add(package.container.client)
-        return clients
+        by_comments = Consultant.objects.filter(comments__contains=name)
+
+        return list(chain(by_comments, by_name))
 
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -157,6 +164,9 @@ class Provider(models.Model):
     last_name = models.CharField(max_length = 100, blank = True, null = True)
     provider_specialty = models.CharField(max_length = 50, choices=enums.SPECIALTIES, default = enums.SPECIALTIES[0][0], blank = True, null = True)
     provider_address = models.CharField(max_length = 200, blank = True, null = True)
+    round_one_capacity = models.IntegerField(default = 0, blank = True, null = True)
+    round_two_capacity = models.IntegerField(default = 0, blank = True, null = True)
+    hourly_capability = models.NullBooleanField(default = False, blank = True, null = True)
 
     @staticmethod
     def FindProvidersByName(name):
@@ -184,6 +194,7 @@ class Service(models.Model):
     service = models.CharField(max_length = 20, choices = enums.POSSIBLE_SERVICES, default = enums.POSSIBLE_SERVICES[0][0], blank = True, null = True, db_index = True)
     start_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
     end_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
+    entry_round = models.IntegerField(default = 1, blank = True, null = True)
 
     def __str__(self):
         return str(self.service) + " by " + str(self.provider)
@@ -202,11 +213,12 @@ Entry of an admissions related service
 '''
 class AddmissionsService(models.Model):
     client = models.ForeignKey(Client, on_delete = models.PROTECT)
-    consultant = models.ForeignKey(Consultant, on_delete = models.PROTECT)
+    provider = models.ForeignKey(Consultant, on_delete = models.PROTECT)
     addmissions_service = models.CharField(max_length = 20, choices = enums.POSSIBLE_ADMISSIONS_SERVICES, default = enums.POSSIBLE_ADMISSIONS_SERVICES[0][0], blank = True, null = True, db_index = True)
     start_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
     end_date = models.DateField(default = datetime.now, blank = True, null = True, db_index = True)
     schools = models.ManyToManyField(School)
+    entry_round = models.IntegerField(default = 1, blank = True, null = True)
 
     def __str__(self):
-        return str(self.addmissions_service) + " by " + str(self.consultant)
+        return str(self.addmissions_service) + " by " + str(self.provider)

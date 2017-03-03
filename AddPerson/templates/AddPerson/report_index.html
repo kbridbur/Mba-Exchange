@@ -1,0 +1,10 @@
+{% extends 'AddPerson/base.html' %}
+
+{% block content %}
+<h1> Reports </h1>
+<form type='post' action='.' style="margin: 0">{% csrf_token %}
+  {% for i in options %}
+  <input class='button' type="button" value= {{ i }} name = {{ i }}>
+  {% endfor %}
+</form>
+{% endblock content %}
