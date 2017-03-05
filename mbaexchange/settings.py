@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+# Update database configuration with $DATABASE_URL.
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,17 +78,19 @@ WSGI_APPLICATION = 'mbaexchange.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        # comment out next 2 lines if ur not kyle lol
-        # 'USER': 'Kyle Bridburg',
-        # 'PASSWORD': 'kbridbur',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         # comment out next 2 lines if ur not kyle lol
+#         # 'USER': 'Kyle Bridburg',
+#         # 'PASSWORD': 'kbridbur',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
