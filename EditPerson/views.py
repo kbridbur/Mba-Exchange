@@ -24,20 +24,20 @@ def edit_client(request, client_id):
                 preclient = form1.save(commit = False)
                 preclient.client = client
                 preclient.save()
-                return HttpResponseRedirect('/edit/client'+client_id+'/')
+                return HttpResponseRedirect('/edit/client/'+client_id+'/')
         if 'add_service' in request.POST:
             if form2.is_valid():
                 preclient = form2.save(commit = False)
                 preclient.client = client
                 preclient.save()
-                return HttpResponseRedirect('/edit/client'+client_id+'/')
+                return HttpResponseRedirect('/edit/client/'+client_id+'/')
         delete_info = DeleteService(request.POST)
         if delete_info[0] == 'addmissions':
             AddmissionsService.objects.get(pk=delete_info[1]).delete()
-            return HttpResponseRedirect('/edit/client'+client_id+'/')
+            return HttpResponseRedirect('/edit/client/'+client_id+'/')
         if delete_info[0] == 'service':
             Service.objects.get(pk=delete_info[1]).delete()
-            return HttpResponseRedirect('/edit/client'+client_id+'/')
+            return HttpResponseRedirect('/edit/client/'+client_id+'/')
     else:
         form1 = AddmissionsServiceForm()
         form2 = ServiceForm()
