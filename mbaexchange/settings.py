@@ -79,7 +79,10 @@ WSGI_APPLICATION = 'mbaexchange.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {}
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+    }
 }
 
 # DATABASES = {
