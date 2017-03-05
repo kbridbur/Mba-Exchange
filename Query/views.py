@@ -18,26 +18,26 @@ def index(request):
                 query = "All Clients"
             else:
                 query = "clients by name of " + client_query
-            return render(request, 'AddPerson/search_result.html', {'person_set':client_set, 'query': query})
+            return render(request, 'AddPerson/search_result.html', {'person_set':client_set, 'query': query, 'person_type': 'client'})
         elif (consultant_query != None):
             consultant_set = Consultant.FindConsultantsByName(consultant_query)
             if consultant_query == "":
                 query = "All Consultants"
             else:
                 query = "consultants by name of " + consultant_query
-            return render(request, 'AddPerson/search_result.html', {'person_set':consultant_set, 'query': query})
+            return render(request, 'AddPerson/search_result.html', {'person_set':consultant_set, 'query': query, 'person_type': 'consultant'})
         elif (provider_query != None):
             provider_set = Provider.FindProvidersByName(provider_query)
             if provider_query == "":
                 query = "All Providers"
             else:
                 query = "providers by name of " + provider_query
-            return render(request, 'AddPerson/search_result.html', {'person_set':provider_set, 'query': query})
+            return render(request, 'AddPerson/search_result.html', {'person_set':provider_set, 'query': query, 'person_type': 'provider'})
         elif (editor_query != None):
             editor_set = Editor.FindEditorsByName(editor_query)
             if editor_query == "":
                 query = "All Editors"
             else:
                 query = "editors by name of " + editor_query
-            return render(request, 'AddPerson/search_result.html', {'person_set':editor_set, 'query': query})
+            return render(request, 'AddPerson/search_result.html', {'person_set':editor_set, 'query': query, 'person_type': 'editor'})
     return render(request, 'AddPerson/search_index.html', {'urls':urls})

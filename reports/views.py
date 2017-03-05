@@ -10,6 +10,10 @@ from AddPerson.models import *
 
 def index(request):
     options = ['Consultant_Client_Round', 'Consultant_Contact_Information', 'Client_Roster']
+    output = CreateConsultantClientRound()
+    response = HttpResponse(output.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=ConsultantClientRound.xlsx'
+    return response
     if request.method == 'POST':
         print("hi")
         if 'Consultant_Client_Round' in request.POST:
@@ -31,7 +35,6 @@ def index(request):
             xlsx_data = CreateClientRoster()
             response.write(xlsx_data)
             return response
-    return render(request, 'AddPerson/report_index.html', {'options':options})
 
 
 
@@ -40,11 +43,13 @@ def CreateConsultantClientRound():
     consultants = Consultant.objects.all()
 
     output = BytesIO()
-    workbook = xlsxwriter.Workbook(output)
+    workbook = xlsxwriter.Workbook(output, {'in_memory' : True})
 
     worksheet_s = workbook.add_worksheet("ConsultantClientRound")
+    x = worksheet_s.write_string(0, 0,  "ACTIVE")
+    print(x)
 
-    worksheet_s.write(0, 0,  u"ACTIVE")
+    '''
     worksheet_s.write(0, 1,  u"Open capacity round 1")
     worksheet_s.write(1, 1,  u"Open capacity round 2")
     worksheet_s.write(4, 1,  u"Hourly?")
@@ -91,11 +96,10 @@ def CreateConsultantClientRound():
         worksheet_s.write(1, col, data.round_two_capacity - round_two_row + 26)
 
         col += 1
-
+        '''
     workbook.close()
-    xlsx_data = output.getvalue()
-    # xlsx_data contains the Excel file
-    return xlsx_data
+    output.seek(0)
+    return output
 
 def CreateConsultantInfo():
     output = BytesIO()

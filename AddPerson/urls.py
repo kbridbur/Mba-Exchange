@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^consultant/', views.add_consultant, name='add_consultant'),
     url(r'^editor/', views.add_editor, name='add_editor'),
     url(r'^provider/', views.add_provider, name='add_provider'),
+    url(r'^webvantaformsubmit/', views.webvantaform, name='webvantaformsubmit'),
 ]

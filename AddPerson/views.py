@@ -68,3 +68,9 @@ def add_provider(request):
     else:
         form = ProviderForm()
     return render(request, 'AddPerson/add_client.html', {'form': form, 'type': 'Add Provider'})
+
+def webvantaform(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            json = request.body
+    return HttpResponse("OK")

@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from AddPerson.models import Client, AddmissionsService, Service
+from AddPerson.models import Client, AddmissionsService, Service, Editor, Consultant, Provider
 from itertools import chain
 from AddPerson.forms import AddmissionsServiceForm, ServiceForm
 
-def index(request, client_id):
+def edit_client(request, client_id):
 
     #ensure this client exists
     try:
@@ -44,6 +44,48 @@ def index(request, client_id):
 
     #display the both forms
     return render(request, 'AddPerson/services.html', {'services':services, 'addmissions_services':addmissions_services, 'form1':form1, 'form2':form2, "client_display":client.GetDisplayFields()})
+
+def edit_consultant(request, consultant_id):
+
+    #ensure this client exists
+    try:
+        consultant = Consultant.objects.get(pk=consultant_id)
+    except Consultant.DoesNotExist:
+        raise Http404("There is no client with that ID")
+
+    #retrieve clients
+    clients = Client.objects.filter(consultant__id = consultant_id)
+
+    #display
+    return render(request, 'AddPerson/non_client_search_result.html', {"person_type": "consultant", "first_name":consultant.first_name, 'last_name':consultant.last_name, 'related_person_type': 'client', 'person_set': clients})
+
+def edit_provider(request, provider_id):
+
+    #ensure this client exists
+    try:
+        provider = Provider.objects.get(pk=provider_id)
+    except Provider.DoesNotExist:
+        raise Http404("There is no client with that ID")
+
+    #retrieve clients
+    clients = Client.objects.filter(provider__id = provider_id)
+
+    #display
+    return render(request, 'AddPerson/non_client_search_result.html', {"person_type": "provider", "first_name":provider.first_name, 'last_name':provider.last_name, 'related_person_type': 'client', 'person_set': clients})
+
+def edit_editor(request, editor_id):
+
+    #ensure this client exists
+    try:
+        editor = Editor.objects.get(pk=editor_id)
+    except Editor.DoesNotExist:
+        raise Http404("There is no client with that ID")
+
+    #retrieve clients
+    consultants = Consultant.objects.filter(editor__id = editor_id)
+
+    #display
+    return render(request, 'AddPerson/non_client_search_result.html', {"person_type": "editor", "first_name":editor.first_name, 'last_name':editor.last_name, 'related_person_type': 'consultant', 'person_set': consultants})
 
 '''
 @param a QueryDict of a post request

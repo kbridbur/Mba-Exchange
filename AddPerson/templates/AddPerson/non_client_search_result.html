@@ -1,0 +1,12 @@
+{% extends 'AddPerson/base.html' %}
+
+{% block content %}
+
+<h1> Displaying information for {{person_type}} named {{first_name}} {{last_name}} </h1>
+
+<h1> Current {{related_person_type}}s </h1>
+{% for person in person_set %}
+  <li><a href = "/edit/{{related_person_type}}/{{person.id}}/"> {{person.first_name}}<b> </b>{{person.last_name}} </a><br>
+{% endfor %}
+
+{% endblock content %}

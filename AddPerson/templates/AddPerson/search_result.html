@@ -7,7 +7,7 @@ Displaying {{query}}
 </h1>
 <ul id='searchresults'>
 {% for person in person_set %}
-  <li><a href = "/edit/{{person.id}}/"> {{person.first_name}}<b> </b>{{person.last_name}} </a><br>
+  <li><a href = "/edit/{{person_type}}/{{person.id}}/"> {{person.first_name}}<b> </b>{{person.last_name}} </a><br>
 {% endfor %}
 </ul>
 

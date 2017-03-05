@@ -77,7 +77,9 @@ class Client(models.Model):
         return list(chain(by_comments, by_name))
 
     def GetDisplayFields(self):
-        return [self.first_name, self.last_name]
+        return [self.first_name, self.last_name, self.comments, self.email]
+
+
 
     #returns client name as a string
     def __str__(self):
