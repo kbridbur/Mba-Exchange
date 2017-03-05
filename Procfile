@@ -1,0 +1,1 @@
+web: gunicorn mbaexchange.wsgi --log-file -
