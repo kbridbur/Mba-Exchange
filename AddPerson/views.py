@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.forms import modelform_factory
 from AddPerson.forms import ClientForm, ConsultantForm, EditorForm, ProviderForm
 from AddPerson.models import Client, Consultant, Editor, Provider
+import json
 
 def index(request):
     urls = ['Client', 'Consultant', 'Editor', 'Provider']
@@ -72,5 +73,10 @@ def add_provider(request):
 def webvantaform(request):
     if request.is_ajax():
         if request.method == 'POST':
-            json = request.body
+            data = json.loads(request.body) #get json from body
+            client = Client()
+            fields = [f.name for f in Client._meta.get_fields()]
+            for field in data:
+                setattr(client, field, data[field])
+            client.save()
     return HttpResponse("OK")
