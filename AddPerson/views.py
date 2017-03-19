@@ -83,4 +83,4 @@ def webvantaform(request):
                 else:
                     setattr(client, field, data[field])
             client.save()
-    return HttpResponse("OK")
+    return HttpResponse("OK form submitted for person of name " + str(data["full_name"]))
