@@ -85,5 +85,5 @@ def webvantaform(request):
             client.save()
     try:
         return HttpResponse("OK form submitted for person of name " + str(data["full_name"]))
-    else:
+    except:
         return HttpResponse("No data submitted")
