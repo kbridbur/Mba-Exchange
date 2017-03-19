@@ -75,8 +75,12 @@ def webvantaform(request):
         if request.method == 'POST':
             data = json.loads(request.body) #get json from body
             client = Client()
-            fields = [f.name for f in Client._meta.get_fields()]
             for field in data:
-                setattr(client, field, data[field])
+                if field = "full_name":
+                    name_list = data[field].split(" ")
+                    setattr(client, "first_name", name_list[0])
+                    setattr(client, "last_name", name_list[-1])
+                else:
+                    setattr(client, field, data[field])
             client.save()
     return HttpResponse("OK")
