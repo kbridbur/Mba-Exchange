@@ -76,7 +76,7 @@ def webvantaform(request):
             data = json.loads(request.body) #get json from body
             client = Client()
             for field in data:
-                if field = "full_name":
+                if field == "full_name":
                     name_list = data[field].split(" ")
                     setattr(client, "first_name", name_list[0])
                     setattr(client, "last_name", name_list[-1])
