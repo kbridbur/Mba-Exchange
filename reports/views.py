@@ -9,35 +9,155 @@ from itertools import chain
 from AddPerson.models import *
 
 def index(request):
-    options = ['Consultant_Client_Round', 'Consultant_Contact_Information', 'Client_Roster']
-    output = CreateConsultantClientRound()
-    response = HttpResponse(output.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=ConsultantClientRound.xlsx'
-    return response
+    urls = ['Consultant_Client_Round', 'Consultant_Contact_Information', 'Client_Roster']
     if request.method == 'POST':
-        print("hi")
         if 'Consultant_Client_Round' in request.POST:
-            print("hi")
-            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename=ConsultantClientRound.xlsx'
-            xlsx_data = CreateConsultantClientRound()
-            response.write(xlsx_data)
-            return response
+            HttpResponseRedirect('/reports/consultant_client_round/')
         elif 'Consultant_Contact_Information' in request.POST:
-            response = HttpResponse(content_type='application/vnd.ms-excel')
-            response['Content-Disposition'] = 'attachment; filename=ConsultantContactInfo.xlsx'
-            xlsx_data = CreateConsultantInfo()
-            response.write(xlsx_data)
-            return response
+            HttpResponseRedirect('/reports/consultant_roster/')
         elif 'Client_Roster' in request.POST:
-            response = HttpResponse(content_type='application/vnd.ms-excel')
-            response['Content-Disposition'] = 'attachment; filename=ClientRoster.xlsx'
-            xlsx_data = CreateClientRoster()
-            response.write(xlsx_data)
-            return response
+            HttpResponseRedirect('/reports/client_roster/')
+    return render(request, 'Addperson/index.html', {'urls':urls})
+    
+def consultantRoster(request):
+    data = CreateConsultantMap()
+    return render(request, 'Addperson/reportsmap.html', {'data':data, 'length':len(data)})
+    
+def clientRoster(request):
+    data = CreateClientMap()
+    return render(request, 'Addperson/reportsmap.html', {'data':data, 'length':len(data)})
 
+def consultantClientRound(request):
+    data = CreateConsultantClientRoundMap()
+    return render(request, 'Addperson/reportsmap.html', {'data':data, 'length':len(data)})
+    
 
+def CreateClientMap():
+    service_list = Service.objects.all()#filter(start_date__range=[str(start_date), str(end_date)])
+    admission_list = AddmissionsService.objects.all()
+    result_list = list(chain(service_list, admission_list)) 
+    
+    result = {}
+    result[0] = ["Client Last Name", "Client First Name", "Client Email", "Year", "Lead First Name", "Lead Last Name", "Paid", "Sh1", "Sh2", "Sh3", "Sh4", "Sh5", "Sh6", "Comments"]
+    
+    for idx, data in enumerate(result_list):
+    row = 1 + idx
+    result[row] = [
+      data.client.last_name,
+      data.client.first_name,
+      data.client.email,
+      u"??????",
+      data.provider.first_name,
+      data.provider.last_name,
+      data.provider.payment]
+    try:
+        for school in data.schools:
+            result[row].append(school.name)
+    except:
+        pass
+    result[row].append(data.client.comments)
+    
+    return result
+    
+def CreateConsultantMap():
+    
+    consultants = Consultant.objects.all()
 
+    result = {}
+    result[0] = [
+      "First Name",
+      "Last Name",
+      "Email",
+      "Alternate Email",
+      "Day Phone",
+      "Evening Phone",
+      "Text",
+      "Skype",
+      "Rate"
+      ]
+
+    for idx, data in enumerate(consultants):
+        row = 1 + idx
+        result[row] = [
+          data.last_name,
+          data.first_name,
+          data.email,
+          data.alternate_email,
+          data.day_phone,
+          data.evening_phone,
+          data.text_phone,
+          data.skype,
+          data.payment
+        ]
+    
+    return result
+    
+    
+def CreateConsultantClientRoundMap():
+    
+    consultants = Consultant.objects.all()
+    
+    result = {}
+    result[0] = ["", "Open Capacity Round 1"]
+    result[1] = ["", "Open Capacity Round 2"]
+    result[4] = ["", "Hourly?"]
+    result[5] = ["", "Round 1"]
+    result[6] = ["", "Round 2"]
+    result[7] = ["", "App check"]
+    result[8] = ["", "Editor"]
+    result[9] = ["", "Round 1"]
+    result[25] = ["", "Round 2"]
+    result[41] = ["", "Round 3"]
+    result[45] = ["", "Comments"]
+    result = fillempty(result, 45)
+    
+    for idx, data in enumerate(consultants):
+      col = 2 + idx
+      result[2].append(data.first_name)
+      result[3].append(data.last_name)
+      if data.hourly_capability:
+        result[4].append("yes")
+      else:
+        result[4].append("no")
+      result[5].append(data.round_one_capacity)
+      result[6].append(data.round_two_capacity)
+      result[8].append(data.editor)
+      result[9].append("XXX")
+      result[25].append("XXX")
+      result[41].append("XXX")
+      
+      round_one_row = 10
+      round_two_row = 26
+      round_three_row = 42
+      
+      for service in consultant.addmissionsservice_set.all():
+        if service.entry_round == 1:
+          result = writeInPlace(result, str(service.client), round_one_row, col)
+          round_one_row += 1
+        elif service.entry_round == 2:
+          result = writeInPlace(result, str(service.client), round_two_row, col)
+          round_two_row += 1
+        elif service.entry_round == 3:
+          result = writeInPlace(result, str(service.client), round_three_row, col)
+          round_three_row += 1
+      
+      result[0].append(data.round_one_capacity-round_one_row+10)
+      result[1].append(data.round_two_capacity-round_two_row+26)
+      
+    return result
+      
+def writeInPlace(obj, text, row, col):
+    while len(obj[col]) < row:
+      obj[col].append("")
+    obj[col].append(text)
+    return obj
+
+def fillempty(result, num):
+    for i in range(num)
+      if i not in result:
+        result[i] = ["", ""]
+    return result
+            
 def CreateConsultantClientRound():
 
     consultants = Consultant.objects.all()
